@@ -90,9 +90,9 @@ async function startPremiumPayment(order, customer){
 }
 $("orderForm").onsubmit=async e=>{
  e.preventDefault();if(!selected)return;
- if(!validateFiles($("photos"),sected.required_photos,"photos")||!validateFiles($("videos"),selected.required_videos,"videos")){e.target.reportValidity();return}
+ if(!validateFiles($("photos"),selected.required_photos,"photos")||!validateFiles($("videos"),selected.required_videos,"videos")){e.target.reportValidity();return}
  const fd=new FormData(e.target);const plan=fd.get("plan");const code="SE-"+Date.now().toString().slice(-8);
- if(plan==="premium" && selected.premiulem_price==null){alert("Premium price is not configured for this template.");return;}
+ if(plan==="premium" && selected.premium_price==null){alert("Premium price is not configured for this template.");return;}
  const submit=$("submitOrderBtn");submit.disabled=true;submit.textContent=plan==="premium"?"Uploading & preparing payment…":"Submitting order…";
  const orderPayload={order_code:code,template_id:selected.id,name:fd.get("name").trim(),mobile:fd.get("mobile").trim(),email:fd.get("email").trim(),instagram_username:fd.get("instagram").trim(),song:fd.get("song")?.trim()||"",requirements:fd.get("requirementsText")?.trim()||"",plan,payment_status:plan==="premium"?"pending":"not_required",revision_limit:plan==="premium"?Math.min(Math.max(selected.premium_revisions??2,0),2):0,watermark:plan!=="premium",duration_limit_seconds:plan==="premium"?(selected.premium_duration_seconds||60):15};
  const orderId=crypto.randomUUID();orderPayload.id=orderId;const {error}=await client.from("orders").insert(orderPayload);const order={id:orderId,order_code:code};
