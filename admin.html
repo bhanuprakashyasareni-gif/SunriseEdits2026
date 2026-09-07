@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SunriseEdits2026 — Admin</title><link rel="stylesheet" href="style.css"><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script><script src="config.js"></script></head>
+<body>
+<header class="nav"><a class="logo" href="index.html">☀ <span>Sunrise</span>Edits2026</a><div><button id="logout" class="small-btn">Logout</button></div></header>
+<main class="admin section">
+<div id="loginBox" class="admin-card"><p class="eyebrow">ADMIN</p><h1>Sign in</h1><form id="loginForm"><label>Email<input id="loginEmail" type="email" required></label><label>Password<input id="loginPassword" type="password" required></label><button class="btn" type="submit">Sign in →</button><p id="loginMsg" class="muted"></p></form></div>
+<div id="dashboard" hidden>
+<div class="admin-head"><div><p class="eyebrow">CONTROL PANEL</p><h1>SunriseEdits2026 Admin</h1></div><button class="btn" id="newTemplate">+ Add Template</button></div>
+<div class="admin-card"><h2>Templates</h2><div id="templatesAdmin">Loading...</div></div>
+<div class="admin-card"><h2>Orders</h2><div id="ordersAdmin">Loading...</div></div>
+</div>
+</main>
+<div id="templateModal" class="modal" hidden><div class="modal-card"><button class="close" id="tmClose">×</button><div class="modal-body"><p class="eyebrow">TEMPLATE</p><h2 id="tmHeading">Add Template</h2><form id="templateForm"><input type="hidden" id="tmId"><label>Title *<input id="tmTitle" required></label><label>Category *<select id="tmCategory"><option>Reels</option><option>Photo</option><option>Poster</option><option>Video</option><option>Custom</option></select></label><label>Description<textarea id="tmDescription" rows="3"></textarea></label><label>Preview type<select id="tmType"><option value="video">Video</option><option value="image">Image</option></select></label><label>Preview URL *<input id="tmPreview" placeholder="https://..."></label><label>Required photos *<input id="tmPhotos" type="number" min="0" max="100" value="0" required></label><label>Required videos *<input id="tmVideos" type="number" min="0" max="20" value="0" required></label><label><input id="tmSong" type="checkbox"> Song required</label><label>Legacy/base price (optional)<input id="tmPrice" type="number" min="0" step="1"></label><label>Premium Price (₹) *<input id="tmPremiumPrice" type="number" min="0" step="1" required></label><label>Premium Revisions (0–2)<input id="tmRevisions" type="number" min="0" max="2" value="2" required></label><label>Premium Duration Limit (seconds)<input id="tmDuration" type="number" min="1" max="3600" value="60" required></label><label><input id="tmActive" type="checkbox" checked> Active</label><button class="btn submit" type="submit">Save Template</button><p id="tmMsg" class="muted"></p></form></div></div></div>
+<script src="admin.js"></script>
+</body></html>
