@@ -40,8 +40,8 @@ function openOrder(id){
 $("close").onclick=()=>modal.hidden=true;modal.onclick=e=>{if(e.target===modal)modal.hidden=true};
 document.querySelectorAll('input[name="plan"]').forEach(r=>r.onchange=()=>selectPlan(r.value));
 function validateFiles(input,count,label){if(input.files.length!==count){input.setCustomValidity(`Please select exactly ${count} ${label}.`);return false}input.setCustomValidity("");return true}
-$("photos").onchange=()=>validateFiles($("photos"),selected?.required_photos||0,"photos");
-$("videos").onchange=()=>validateFiles($("videos"),selected?.required_videos||0,"videos");
+$("photos").onchange=()=>validateFiles($("photos"),selected.required_photos||0,"photos");
+$("videos").onchange=()=>validateFiles($("videos"),selected.required_videos||0,"videos");
 function showResult(message){$("orderSuccess").hidden=false;$("orderSuccess").textContent=message;}
 async function uploadFiles(orderId, code){
  const allFiles=[...$("photos").files.map(f=>({f,kind:"photo"})),...$("videos").files.map(f=>({f,kind:"video"}))];
