@@ -44,3 +44,10 @@ The frontend uses the Razorpay Checkout script and the Test Key ID. Premium pric
 
 ## 7. Important
 This is Test Mode. Do not use the test Key ID for real customer payments. Switch to Live Mode only after the complete test flow works and your Razorpay account is approved for live payments.
+
+
+## Order submission fix (v6)
+Customer order creation now uses a validated Supabase SECURITY DEFINER RPC (`create_customer_order`) instead of a direct anonymous INSERT. This avoids requiring public SELECT privileges on `orders` and keeps RLS enabled. Run the appended SQL migration in Supabase SQL Editor once before deploying the updated files.
+
+## IMPORTANT — SQL migration
+Use the included `supabase-schema.sql`. The starter-template price values are explicitly cast to numeric so the migration works with the existing `templates.price` column. Run the SQL once in Supabase SQL Editor. Do not disable RLS.

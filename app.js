@@ -95,10 +95,7 @@ $("orderForm").onsubmit=async e=>{
  if(plan==="premium" && selected.premium_price==null){alert("Premium price is not configured for this template.");return;}
  const submit=$("submitOrderBtn");submit.disabled=true;submit.textContent=plan==="premium"?"Uploading & preparing payment…":"Submitting order…";
  const orderPayload={order_code:code,template_id:selected.id,name:fd.get("name").trim(),mobile:fd.get("mobile").trim(),email:fd.get("email").trim(),instagram_username:fd.get("instagram").trim(),song:fd.get("song")?.trim()||"",requirements:fd.get("requirementsText")?.trim()||"",plan,payment_status:plan==="premium"?"pending":"not_required",revision_limit:plan==="premium"?Math.min(Math.max(selected.premium_revisions??2,0),2):0,watermark:plan!=="premium",duration_limit_seconds:plan==="premium"?(selected.premium_duration_seconds||60):15};
- console.log("ORDER PAYLOAD:", orderPayload);
- const orderId=crypto.randomUUID();
- orderPayload.id=orderId;
- const {error}=await client.from("orders").insert(orderPayload);const order={id:orderId,order_code:code};
+ const {data:createdOrder,error}=await client.rpc("create_customer_order",{p_order_code:code,p_template_id:selected.id,p_name:orderPayload.name,p_mobile:orderPayload.mobile,p_email:orderPayload.email,p_instagram_username:orderPayload.instagram_username,p_song:orderPayload.song,p_requirements:orderPayload.requirements,p_plan:orderPayload.plan,p_payment_status:orderPayload.payment_status,p_revision_limit:orderPayload.revision_limit,p_watermark:orderPayload.watermark,p_duration_limit_seconds:orderPayload.duration_limit_seconds});const order=createdOrder?.[0]||createdOrder;
  if(error){showResult("❌ Could not create the order. Please try again.");console.error(error);submit.disabled=false;submit.textContent=plan==="premium"?"Continue to Premium Payment →":"Submit Free Collab Order →";return}
  try{
    const count=await uploadFiles(order.id,code);
