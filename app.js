@@ -64,11 +64,82 @@ function openGoogleUploadForm(orderCode){
   window.location.href=url;
 }
 
+async function createSupabasePaymentOrder(orderPayload){
+  // Create only a payment-tracking record in Supabase. Customer/order data remains in Google Sheets.
+  // We generate the UUID client-side so no SELECT permission is required after INSERT.
+  const id=crypto.randomUUID();
+  const payload={
+    id,
+    order_code:orderPayload.order_code,
+    template_id:orderPayload.template_id,
+    name:orderPayload.name,
+    mobile:orderPayload.mobile,
+    email:orderPayload.email,
+    instagram_username:orderPayload.instagram_username,
+    song:orderPayload.song,
+    requirements:orderPayload.requirements,
+    plan:"premium",
+    payment_status:"pending",
+    revision_limit:0,
+    watermark:false,
+    duration_limit_seconds:selected?.premium_duration_seconds||60
+  };
+  const {error}=await client.from("orders").insert(payload);
+  if(error)throw new Error(error.message||"Could not create payment order.");
+  return {id,order_code:orderPayload.order_code};
+}
+
+async function startPremiumPayment(order, customer){
+  const {data, error}=await client.functions.invoke("create-razorpay-order",{body:{order_id:order.id}});
+  if(error)throw new Error(error.message||"Could not start Razorpay payment.");
+  if(!data?.razorpay_order_id)throw new Error(data?.error||"Razorpay order was not created.");
+  const options={
+    key:data.key_id,
+    amount:data.amount,
+    currency:data.currency||"INR",
+    name:"SunriseEdits2026",
+    description:`Premium Edit — ${data.template_title||selected.title}`,
+    order_id:data.razorpay_order_id,
+    prefill:{name:customer.name,email:customer.email,contact:customer.mobile},
+    notes:{sunrise_order_id:String(order.id),order_code:String(order.order_code)},
+    theme:{color:"#111111"},
+    handler:async function(response){
+      try{
+        $("submitOrderBtn").disabled=true;$("submitOrderBtn").textContent="Verifying payment…";
+        const verification=await client.functions.invoke("verify-razorpay-payment",{body:{order_id:order.id,razorpay_order_id:response.razorpay_order_id,razorpay_payment_id:response.razorpay_payment_id,razorpay_signature:response.razorpay_signature}});
+        if(verification.error)throw new Error(verification.error.message||"Payment verification failed.");
+        if(!verification.data?.success||verification.data?.payment_status!=="paid")throw new Error(verification.data?.message||verification.data?.error||"Payment could not be verified yet.");
+        showResult(`✅ Payment successful for ${order.order_code}. Opening the photo upload form…`);
+        setTimeout(()=>openGoogleUploadForm(order.order_code),700);
+      }catch(err){
+        console.error(err);
+        showResult(`⚠️ Payment was received by Razorpay, but verification needs attention. Please contact SunriseEdits2026 with order ${order.order_code}.`);
+      }finally{
+        $("submitOrderBtn").disabled=false;
+        $("submitOrderBtn").textContent="Continue to Premium Payment →";
+      }
+    },
+    modal:{ondismiss:function(){
+      showResult(`ℹ️ Payment window closed. Premium order ${order.order_code} is still pending. You can click the payment button again to retry.`);
+      $("submitOrderBtn").disabled=false;
+      $("submitOrderBtn").textContent="Continue to Premium Payment →";
+    }}
+  };
+  const rzp=new Razorpay(options);
+  rzp.on("payment.failed",function(response){
+    console.error("Razorpay payment failed",response);
+    showResult(`❌ Payment failed or was cancelled. Premium order ${order.order_code} remains pending.`);
+    $("submitOrderBtn").disabled=false;
+    $("submitOrderBtn").textContent="Continue to Premium Payment →";
+  });
+  rzp.open();
+}
+
 $("orderForm").onsubmit=async e=>{
  e.preventDefault();if(!selected)return;
- const fd=new FormData(e.target);const plan=selectedPlan;const code="SE-"+Date.now().toString().slice(-8);
+ const fd=new FormData(e.target);const plan=String(fd.get("plan")||"free");const code="SE-"+Date.now().toString().slice(-8);
  if(plan==="premium" && selected.premium_price==null){alert("Premium price is not configured for this template.");return;}
- const submit=$("submitOrderBtn");submit.disabled=true;submit.textContent="Saving your order…";
+ const submit=$("submitOrderBtn");submit.disabled=true;submit.textContent=plan==="premium"?"Creating secure payment…":"Saving your order…";
  const orderPayload={
    order_code:code,
    template_id:selected.id,
@@ -82,14 +153,25 @@ $("orderForm").onsubmit=async e=>{
    plan
  };
  try{
+   // Always record the order in Google Sheets first.
    await saveOrderToGoogleSheet(orderPayload);
-   showResult(`✅ Order ${code} created! Opening the photo upload form…`);
-   setTimeout(()=>openGoogleUploadForm(code),500);
+
+   if(plan==="premium"){
+     // Premium: create the payment-tracking order, then open Razorpay.
+     const order=await createSupabasePaymentOrder(orderPayload);
+     showResult(`Order ${code} created. Opening secure Razorpay Test Mode…`);
+     await startPremiumPayment(order,{name:orderPayload.name,email:orderPayload.email,mobile:orderPayload.mobile});
+   }else{
+     // Free: no payment. Go directly to the pre-filled Google upload form.
+     showResult(`✅ Order ${code} created! Opening the photo upload form…`);
+     setTimeout(()=>openGoogleUploadForm(code),500);
+   }
  }catch(err){
    console.error(err);
-   showResult("❌ Could not save your order. Please try again.");
+   showResult(`❌ ${err.message||"Could not create your order."}`);
    submit.disabled=false;
-   submit.textContent="Create Order & Upload Photos →";
+   submit.textContent=plan==="premium"?"Continue to Premium Payment →":"Create Order & Upload Photos →";
  }
 };
+
 load();
