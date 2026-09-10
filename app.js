@@ -24,9 +24,18 @@ function previewMarkup(t, extra=""){
 }
 
 async function load(){
-  const {data,error}=await client.from("templates").select("*").eq("is_active",true).order("created_at",{ascending:false});
-  if(error){$("catalog").innerHTML="<p>Could not load templates. Check config.js and your Supabase setup.</p>";console.error(error);return;}
-  templates=data||[]; render();
+  try{
+    if(!window.supabase || !cfg?.SUPABASE_URL || !cfg?.SUPABASE_ANON_KEY){
+      throw new Error("Supabase client/config did not load.");
+    }
+    const {data,error}=await client.from("templates").select("*").eq("is_active",true).order("created_at",{ascending:false});
+    if(error) throw error;
+    templates=Array.isArray(data)?data:[];
+    render();
+  }catch(error){
+    $("catalog").innerHTML="<p>Could not load templates. Please refresh the page once.</p>";
+    console.error("Template loading error:",error);
+  }
 }
 function render(){
   const q=$("search").value.toLowerCase().trim();

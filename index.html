@@ -5,6 +5,8 @@
 <title>SunriseEdits2026 — Find Your Edit</title>
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>window.__supabaseCdnLoaded=true;</script>
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 <script src="config.js"></script>
 </head>
@@ -17,5 +19,5 @@
 <footer><div class="logo">☀ <span>Sunrise</span>Edits2026</div><p>© 2026 SunriseEdits2026</p></footer>
 
 <div id="modal" class="modal" hidden><div class="modal-card"><button class="close" id="close">×</button><div id="preview"></div><div class="modal-body"><p class="eyebrow">ORDER THIS EDIT</p><h2 id="modalTitle"></h2><p id="modalDesc"></p><div id="requirements" class="requirements"></div><div class="plan-grid"><label class="plan-card selected" id="freePlan"><input type="radio" name="plan" value="free" checked><span class="plan-title">🆓 Free Collab</span><span class="plan-price">₹0</span><small>15 sec max • 1080p • @sunriseedits2026 watermark • 0 revisions</small></label><label class="plan-card" id="premiumPlan"><input type="radio" name="plan" value="premium"><span class="plan-title">💎 Premium Edit</span><span class="plan-price" id="premiumPrice">₹—</span><small>1080p • 30–60 sec • no watermark • 1–2 revisions</small></label></div><div id="collabNote" class="collab-note">Free Collab requires your Instagram username so we can manually verify that you follow @sunriseedits2026.</div><div id="paymentNote" class="payment-note" hidden>💳 Premium payment is required before photo upload. You will be securely redirected to Razorpay after creating your order.</div><form id="orderForm"><input type="hidden" id="templateId" name="templateId"><label>Full Name *<input name="name" required maxlength="100"></label><label>Mobile Number *<input name="mobile" type="tel" required maxlength="30"></label><label>Email *<input name="email" type="email" required maxlength="200"></label><label>Instagram Username *<input name="instagram" required maxlength="100" placeholder="@username"></label><div class="upload-note"><strong>📸 Photo upload:</strong> After you submit your order details, you will be taken to our Google upload form. Your Order ID will already be filled in.</div><label>Song / Audio <span class="muted">(optional unless template says required)</span><input name="song" maxlength="300" placeholder="Song name or link"></label><label>Editing Requirements<textarea name="requirementsText" rows="4" maxlength="2000" placeholder="Any instructions..."></textarea></label><button class="btn submit" id="submitOrderBtn" type="submit">Create Order &amp; Upload Photos →</button><div id="orderSuccess" class="success" hidden></div></form></div></div></div>
-<script src="app.js?v=20260908-premiumfix2"></script>
+<script src="app.js?v=20260909-mobilefix1"></script>
 </body></html>
