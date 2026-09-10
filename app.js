@@ -33,11 +33,8 @@ async function load(){
     templates=Array.isArray(data)?data:[];
     render();
   }catch(error){
-    $("catalog").innerHTML =
-  `<p style="color:#ff6b6b">
-    Template loading error:<br>
-    ${error?.message || error}
-  </p>`;
+    $("catalog").innerHTML="<p>Could not load templates. Please refresh the page once.</p>";
+    console.error("Template loading error:",error);
   }
 }
 function render(){
@@ -171,3 +168,22 @@ $("orderForm").onsubmit=async e=>{
 };
 
 load();
+
+// SunriseEdits2026 visual polish: reveal animations + subtle pointer tilt on desktop.
+(function initVisualEffects(){
+  const items=document.querySelectorAll('.reveal');
+  if('IntersectionObserver' in window){
+    const io=new IntersectionObserver(entries=>entries.forEach(entry=>{if(entry.isIntersecting){entry.target.classList.add('visible');io.unobserve(entry.target)}}),{threshold:.08});
+    items.forEach((el,i)=>{el.style.transitionDelay=`${Math.min(i*45,240)}ms`;io.observe(el)});
+  }else items.forEach(el=>el.classList.add('visible'));
+
+  if(window.matchMedia('(pointer:fine)').matches){
+    document.querySelectorAll('.card').forEach(card=>{
+      card.addEventListener('pointermove',e=>{
+        const r=card.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform=`translateY(-8px) rotateX(${-y*3}deg) rotateY(${x*4}deg)`;
+      });
+      card.addEventListener('pointerleave',()=>card.style.transform='');
+    });
+  }
+})();

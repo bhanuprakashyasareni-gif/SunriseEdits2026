@@ -1,8 +1,14 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#080a0f">
+<meta name="description" content="SunriseEdits2026 — premium photo and video editing templates. Find the exact edit and order it easily.">
 <title>SunriseEdits2026 — Find Your Edit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="style.css">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>window.__supabaseCdnLoaded=true;</script>
@@ -11,13 +17,57 @@
 <script src="config.js"></script>
 </head>
 <body>
-<header class="nav"><a class="logo" href="#">☀ <span>Sunrise</span>Edits2026</a><nav><a href="#templates">Templates</a><a href="#how">How it works</a><a href="#about">About</a></nav><a class="small-btn" href="#templates">Browse Edits</a></header>
-<section class="hero"><div><p class="eyebrow">SUNRISEEDITS2026 • PHOTO & VIDEO EDITING</p><h1>See the exact edit.<br><i>Order that edit.</i></h1><p class="lead">Find the Reel or photo edit you saw on Instagram, check exactly what it needs, and send your files directly to us.</p><a class="btn" href="#templates">Explore Templates ↓</a></div><div class="hero-box"><div class="play">▶</div><div class="hero-label">SUNRISEEDITS2026</div><strong>Pick a template.<br>Send your photos.</strong></div></section>
-<section id="templates" class="section"><div class="heading"><p class="eyebrow">EDIT CATALOGUE</p><h2>Find your exact edit</h2><p>Every template has its own requirements.</p></div><div class="filters"><button class="filter active" data-cat="All">All</button><button class="filter" data-cat="Reels">Reels</button><button class="filter" data-cat="Photo">Photo</button><button class="filter" data-cat="Poster">Poster</button><input id="search" placeholder="Search templates..."></div><div id="catalog" class="catalog"><p>Loading templates...</p></div></section>
-<section id="how" class="section how"><div class="heading"><p class="eyebrow">HOW IT WORKS</p><h2>From Instagram to order.</h2></div><div class="steps"><div><b>01</b><h3>Find the edit</h3><p>Search the exact Reel/photo you saw.</p></div><div><b>02</b><h3>Check requirements</h3><p>The template tells you exactly how many files are needed.</p></div><div><b>03</b><h3>Send & order</h3><p>Enter your details, then upload your photos.</p></div></div></section>
-<section id="about" class="section about"><p class="eyebrow">SUNRISEEDITS2026</p><h2>Your idea. Your photos. Our edit.</h2><p>Photo edits, Reels, events, posters, thumbnails, social content, retouching, manipulation and custom projects.</p></section>
-<footer><div class="logo">☀ <span>Sunrise</span>Edits2026</div><p>© 2026 SunriseEdits2026</p></footer>
+<div class="noise" aria-hidden="true"></div>
+<header class="nav">
+  <a class="logo" href="#"><span class="logo-sun">☀</span> <span class="logo-accent">Sunrise</span>Edits2026</a>
+  <nav aria-label="Main navigation"><a href="#templates">Templates</a><a href="#how">How it works</a><a href="#about">About</a></nav>
+  <a class="small-btn" href="#templates">Browse Edits <span>↗</span></a>
+</header>
 
-<div id="modal" class="modal" hidden><div class="modal-card"><button class="close" id="close">×</button><div id="preview"></div><div class="modal-body"><p class="eyebrow">ORDER THIS EDIT</p><h2 id="modalTitle"></h2><p id="modalDesc"></p><div id="requirements" class="requirements"></div><div class="plan-grid"><label class="plan-card selected" id="freePlan"><input type="radio" name="plan" value="free" checked><span class="plan-title">🆓 Free Collab</span><span class="plan-price">₹0</span><small>15 sec max • 1080p • @sunriseedits2026 watermark • 0 revisions</small></label><label class="plan-card" id="premiumPlan"><input type="radio" name="plan" value="premium"><span class="plan-title">💎 Premium Edit</span><span class="plan-price" id="premiumPrice">₹—</span><small>1080p • 30–60 sec • no watermark • 1–2 revisions</small></label></div><div id="collabNote" class="collab-note">Free Collab requires your Instagram username so we can manually verify that you follow @sunriseedits2026.</div><div id="paymentNote" class="payment-note" hidden>💳 Premium payment is required before photo upload. You will be securely redirected to Razorpay after creating your order.</div><form id="orderForm"><input type="hidden" id="templateId" name="templateId"><label>Full Name *<input name="name" required maxlength="100"></label><label>Mobile Number *<input name="mobile" type="tel" required maxlength="30"></label><label>Email *<input name="email" type="email" required maxlength="200"></label><label>Instagram Username *<input name="instagram" required maxlength="100" placeholder="@username"></label><div class="upload-note"><strong>📸 Photo upload:</strong> After you submit your order details, you will be taken to our Google upload form. Your Order ID will already be filled in.</div><label>Song / Audio <span class="muted">(optional unless template says required)</span><input name="song" maxlength="300" placeholder="Song name or link"></label><label>Editing Requirements<textarea name="requirementsText" rows="4" maxlength="2000" placeholder="Any instructions..."></textarea></label><button class="btn submit" id="submitOrderBtn" type="submit">Create Order &amp; Upload Photos →</button><div id="orderSuccess" class="success" hidden></div></form></div></div></div>
-<script src="app.js?v=20260909-mobilefix1"></script>
-</body></html>
+<main>
+<section class="hero">
+  <div class="hero-copy reveal">
+    <div class="status-pill"><span class="status-dot"></span> NEW EDITS DROPPING REGULARLY</div>
+    <p class="eyebrow">SUNRISEEDITS2026 • PHOTO & VIDEO EDITING</p>
+    <h1>Find the edit.<br><span>Make it yours.</span></h1>
+    <p class="lead">See the exact Reel or photo edit you love, check the requirements, and send your photos to SunriseEdits2026 in just a few taps.</p>
+    <div class="hero-actions"><a class="btn hero-btn" href="#templates">Explore Templates <span>↓</span></a><a class="text-btn" href="#how">See how it works <span>→</span></a></div>
+    <div class="trust-row"><span>✦ Easy ordering</span><span>✦ 1080p edits</span><span>✦ Free & Premium</span></div>
+  </div>
+  <div class="hero-stage reveal" aria-hidden="true">
+    <div class="orbit orbit-a"></div><div class="orbit orbit-b"></div>
+    <div class="hero-card hero-card-back"><span>PREMIUM</span><strong>YOUR<br>STYLE</strong></div>
+    <div class="hero-card hero-card-main"><div class="hero-card-top"><span class="mini-logo">☀</span><span>SE / 2026</span></div><div class="hero-card-art"><div class="art-orb"></div><div class="art-ring"></div><div class="art-text">EDIT<br><em>YOUR</em><br>STORY</div></div><div class="hero-card-bottom"><span>PHOTO + REELS</span><b>↗</b></div></div>
+    <div class="float-chip chip-one">✦ 1080P</div><div class="float-chip chip-two">💎 PREMIUM</div><div class="float-chip chip-three">⚡ FAST ORDER</div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true"><div>REELS <span>✦</span> PHOTO EDITS <span>✦</span> POSTERS <span>✦</span> SOCIAL CONTENT <span>✦</span> CUSTOM EDITS <span>✦</span> REELS <span>✦</span> PHOTO EDITS <span>✦</span> POSTERS <span>✦</span></div></div>
+
+<section id="templates" class="section templates-section">
+  <div class="heading reveal"><div><p class="eyebrow">EDIT CATALOGUE</p><h2>Find your <span>exact edit.</span></h2></div><p>Every template has its own requirements, preview and pricing — so you know exactly what you're ordering.</p></div>
+  <div class="filters reveal"><div class="filter-group"><button class="filter active" data-cat="All">All</button><button class="filter" data-cat="Reels">Reels</button><button class="filter" data-cat="Photo">Photo</button><button class="filter" data-cat="Poster">Poster</button></div><div class="search-wrap"><span>⌕</span><input id="search" placeholder="Search templates..." aria-label="Search templates"></div></div>
+  <div id="catalog" class="catalog"><p>Loading templates...</p></div>
+</section>
+
+<section id="how" class="section how">
+  <div class="heading reveal"><div><p class="eyebrow">HOW IT WORKS</p><h2>From Instagram<br><span>to finished edit.</span></h2></div><p>Simple, clear and designed for mobile. No complicated process.</p></div>
+  <div class="steps">
+    <div class="step-card reveal"><div class="step-icon">01</div><div><h3>Find the edit</h3><p>Search the exact Reel or photo edit you saw on Instagram.</p></div><span class="step-arrow">↗</span></div>
+    <div class="step-card reveal"><div class="step-icon">02</div><div><h3>Choose your plan</h3><p>Pick Free Collab or Premium and check exactly what is included.</p></div><span class="step-arrow">↗</span></div>
+    <div class="step-card reveal"><div class="step-icon">03</div><div><h3>Send your photos</h3><p>Complete your order, then upload the required photos through Google Forms.</p></div><span class="step-arrow">↗</span></div>
+  </div>
+</section>
+
+<section id="about" class="section about">
+  <div class="about-glow"></div><p class="eyebrow reveal">SUNRISEEDITS2026</p><h2 class="reveal">Your idea.<br><span>Your photos.</span><br>Our edit.</h2><p class="about-copy reveal">Photo edits, Reels, events, posters, thumbnails, social content, retouching, manipulation and custom projects — built around your style.</p><a class="text-btn reveal" href="#templates">Start browsing <span>→</span></a>
+  <div class="about-badges reveal"><span>CREATIVE</span><span>MODERN</span><span>MOBILE FIRST</span><span>1080P</span></div>
+</section>
+</main>
+
+<footer><div class="logo"><span class="logo-sun">☀</span> <span class="logo-accent">Sunrise</span>Edits2026</div><p>© 2026 SunriseEdits2026 • Made for creators</p></footer>
+
+<div id="modal" class="modal" hidden><div class="modal-card"><button class="close" id="close" aria-label="Close">×</button><div id="preview" class="modal-preview"></div><div class="modal-body"><p class="eyebrow">ORDER THIS EDIT</p><h2 id="modalTitle"></h2><p id="modalDesc" class="modal-desc"></p><div id="requirements" class="requirements"></div><div class="plan-grid"><label class="plan-card selected" id="freePlan"><input type="radio" name="plan" value="free" checked><span class="plan-title">🆓 Free Collab</span><span class="plan-price">₹0</span><small>15 sec max • 1080p • @sunriseedits2026 watermark • 0 revisions</small></label><label class="plan-card" id="premiumPlan"><input type="radio" name="plan" value="premium"><span class="plan-title">💎 Premium Edit</span><span class="plan-price" id="premiumPrice">₹—</span><small>1080p • 30–60 sec • no watermark • 1–2 revisions</small></label></div><div id="collabNote" class="collab-note">Free Collab requires your Instagram username so we can manually verify that you follow @sunriseedits2026.</div><div id="paymentNote" class="payment-note" hidden>💳 Premium payment is required before photo upload. You will be securely redirected to Razorpay after creating your order.</div><form id="orderForm"><input type="hidden" id="templateId" name="templateId"><div class="form-grid"><label>Full Name *<input name="name" required maxlength="100" autocomplete="name"></label><label>Mobile Number *<input name="mobile" type="tel" required maxlength="30" autocomplete="tel"></label><label>Email *<input name="email" type="email" required maxlength="200" autocomplete="email"></label><label>Instagram Username *<input name="instagram" required maxlength="100" placeholder="@username"></label></div><div class="upload-note"><strong>📸 Photo upload:</strong> After you submit your order details, you will be taken to our Google upload form. Your Order ID will already be filled in.</div><label>Song / Audio <span class="muted">(optional unless template says required)</span><input name="song" maxlength="300" placeholder="Song name or link"></label><label>Editing Requirements<textarea name="requirementsText" rows="4" maxlength="2000" placeholder="Tell us any special instructions..."></textarea></label><button class="btn submit" id="submitOrderBtn" type="submit">Create Order &amp; Upload Photos →</button><div id="orderSuccess" class="success" hidden></div></form></div></div></div>
+<script src="app.js?v=20260910-premium-ui1"></script>
+</body>
+</html>
