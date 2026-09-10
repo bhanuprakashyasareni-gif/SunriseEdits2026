@@ -33,8 +33,11 @@ async function load(){
     templates=Array.isArray(data)?data:[];
     render();
   }catch(error){
-    $("catalog").innerHTML="<p>Could not load templates. Please refresh the page once.</p>";
-    console.error("Template loading error:",error);
+    $("catalog").innerHTML =
+  `<p style="color:#ff6b6b">
+    Template loading error:<br>
+    ${error?.message || error}
+  </p>`;
   }
 }
 function render(){
